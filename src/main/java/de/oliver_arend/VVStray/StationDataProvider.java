@@ -15,22 +15,23 @@ public class StationDataProvider {
 	private static ArrayList<Station> allStations;
 
 	private StationDataProvider() { }
-	
+
 	private static void parseStationJson() {
 		try {
-			String stationJson = Utils.readFile("vvs_stops.json", StandardCharsets.UTF_8);
+			ClassLoader classLoader = StationDataProvider.class.getClassLoader();
+			String stationJson = Utils.readFile(classLoader.getResource("vvs_stops.json").getFile(), StandardCharsets.UTF_8);
 			Type stationListType = new TypeToken<ArrayList<Station>>(){}.getType();
 			allStations = gson.fromJson(stationJson, stationListType);
 		} catch(IOException e) {
 			System.out.println(e.toString());
 		}
 	}
-	
+
 	public static ArrayList<Station> getStationsArrayList() {
 		if(allStations == null) { parseStationJson(); }
 		return allStations;
 	}
-	
+
 	public static Station[] getStationsArray(String currentEntry) {
 		if(allStations == null) { parseStationJson(); }
 		Stream<Station> beginsWith = allStations.stream()
