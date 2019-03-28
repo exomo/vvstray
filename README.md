@@ -17,4 +17,7 @@ Build the project using maven
 mvn install:install-file -Dfile=jedit.jar -DgroupId=org.gjt.sp -DartifactId=jedit -DgeneratePom=true -Dversion=1.0.0 -Dpackaging=jar
 
 ### Start build
-mvn package -f "c:\Users\kbublitz\Documents\Projekte\vvstray\pom.xml"
+mvn package -f pom.xml
+
+### Run
+mvn exec:java
