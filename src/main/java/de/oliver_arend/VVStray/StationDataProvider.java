@@ -3,6 +3,8 @@ package de.oliver_arend.VVStray;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -18,8 +20,9 @@ public class StationDataProvider {
 
 	private static void parseStationJson() {
 		try {
-			ClassLoader classLoader = StationDataProvider.class.getClassLoader();
-			String stationJson = Utils.readFile(classLoader.getResource("vvs_stops.json").getFile(), StandardCharsets.UTF_8);
+			String resourcePath = Utils.getResourcePath("vvs_stops.json");
+			System.out.println(resourcePath);
+			String stationJson = Utils.readFile(resourcePath, StandardCharsets.UTF_8);
 			Type stationListType = new TypeToken<ArrayList<Station>>(){}.getType();
 			allStations = gson.fromJson(stationJson, stationListType);
 		} catch(IOException e) {

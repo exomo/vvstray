@@ -23,13 +23,13 @@ public class ChangeIconStyleDialog {
     private ButtonGroup iconStyleRadio;
     private JRadioButton colorRadio;
     private JRadioButton windows10Radio;
-    
+
     public ChangeIconStyleDialog() {
     	frame = new JFrame("");
-    	frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));  
-    	frame.setIconImage(new ImageIcon("resources/vvslogo_16x16.png").getImage());
+    	frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+    	frame.setIconImage(new ImageIcon(Utils.getResourcePath("vvslogo_16x16.png")).getImage());
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		    	
+
     	JPanel panelDescription = new JPanel(new FlowLayout(FlowLayout.CENTER));
     	JPanel panelInputTop = new JPanel(new FlowLayout(FlowLayout.LEFT));
     	JPanel panelInputBottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -38,12 +38,12 @@ public class ChangeIconStyleDialog {
         panelDescription.add(new JLabel("Choose your preferred icon style: "));
 
         colorRadio = new JRadioButton("");
-        JLabel colorRadioLabel = new JLabel("Color", new ImageIcon("resources/coloricon.png"), SwingConstants.LEFT);
+        JLabel colorRadioLabel = new JLabel("Color", new ImageIcon("coloricon.png"), SwingConstants.LEFT);
         colorRadioLabel.setHorizontalTextPosition(SwingConstants.LEFT);
         windows10Radio = new JRadioButton("");
-        JLabel windows10RadioLabel = new JLabel("Windows 10", new ImageIcon("resources/windows10icon.png"), SwingConstants.LEFT);
+        JLabel windows10RadioLabel = new JLabel("Windows 10", new ImageIcon("windows10icon.png"), SwingConstants.LEFT);
         windows10RadioLabel.setHorizontalTextPosition(SwingConstants.LEFT);
-        
+
         iconStyleRadio = new ButtonGroup();
         iconStyleRadio.add(colorRadio);
         iconStyleRadio.add(windows10Radio);
@@ -58,25 +58,25 @@ public class ChangeIconStyleDialog {
         JButton OK = new JButton("OK");
         JButton cancel = new JButton("Cancel");
 
-        OK.addActionListener(new ActionListener() {  
+        OK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	UserSettings u = UserSettingsProvider.getUserSettings();
             	if(colorRadio.isSelected()) { u.setIconStyle(IconStyle.COLOR); }
             	else { u.setIconStyle(IconStyle.WINDOWS10); }
             	UserSettingsProvider.setUserSettings(u);
             	close();
-            }  
-        });  
+            }
+        });
 
-        cancel.addActionListener(new ActionListener() {  
-            public void actionPerformed(ActionEvent e) {  
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 close();
-            }  
-        });  
+            }
+        });
 
-        panelButtons.add(OK);   
+        panelButtons.add(OK);
         panelButtons.add(cancel);
-        
+
         frame.add(panelDescription);
         frame.add(panelInputTop);
         frame.add(panelInputBottom);
@@ -84,7 +84,7 @@ public class ChangeIconStyleDialog {
 
         frame.pack();
     }
-    
+
     public void open() {
     	IconStyle chosenIconStyle = UserSettingsProvider.getUserSettings().getIconStyle();
     	if(chosenIconStyle == IconStyle.COLOR) { colorRadio.setSelected(true); }
@@ -93,7 +93,7 @@ public class ChangeIconStyleDialog {
         frame.setLocation(mousePosition.x - frame.getWidth(), mousePosition.y - frame.getHeight());
         frame.setVisible(true);
     }
-    
+
     public void close() {
     	frame.setVisible(false);
     }

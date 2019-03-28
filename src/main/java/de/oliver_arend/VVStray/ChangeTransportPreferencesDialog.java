@@ -16,16 +16,16 @@ public class ChangeTransportPreferencesDialog {
     private JCheckBox sBahnCheckbox;
     private JCheckBox uBahnCheckbox;
     private JCheckBox busCheckbox;
-    
+
     public ChangeTransportPreferencesDialog() {
     	frame = new JFrame("");
-    	frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));  
-    	frame.setIconImage(new ImageIcon("resources/vvslogo_16x16.png").getImage());
+    	frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+    	frame.setIconImage(new ImageIcon(Utils.getResourcePath("vvslogo_16x16.png")).getImage());
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		
+
     	JPanel panelInput = new JPanel(new FlowLayout(FlowLayout.CENTER));
     	JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        
+
         panelInput.add(new JLabel("Use: "));
         sBahnCheckbox = new JCheckBox("S-Bahn");
         uBahnCheckbox = new JCheckBox("U-Bahn");
@@ -37,32 +37,32 @@ public class ChangeTransportPreferencesDialog {
         JButton OK = new JButton("OK");
         JButton cancel = new JButton("Cancel");
 
-        OK.addActionListener(new ActionListener() {  
-            public void actionPerformed(ActionEvent e) {  
+        OK.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
             	UserSettings u = UserSettingsProvider.getUserSettings();
             	u.setUseSBahn(sBahnCheckbox.isSelected());
             	u.setUseUBahn(uBahnCheckbox.isSelected());
             	u.setUseBus(busCheckbox.isSelected());
             	UserSettingsProvider.setUserSettings(u);
             	close();
-            }  
-        });  
+            }
+        });
 
-        cancel.addActionListener(new ActionListener() {  
-            public void actionPerformed(ActionEvent e) {  
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 close();
-            }  
-        });  
+            }
+        });
 
-        panelButtons.add(OK);   
+        panelButtons.add(OK);
         panelButtons.add(cancel);
-        
+
         frame.add(panelInput);
         frame.add(panelButtons);
 
         frame.pack();
     }
-    
+
     public void open() {
         Point mousePosition = MouseInfo.getPointerInfo().getLocation();
         sBahnCheckbox.setSelected(UserSettingsProvider.getUserSettings().isUseSBahn());
@@ -71,7 +71,7 @@ public class ChangeTransportPreferencesDialog {
         frame.setLocation(mousePosition.x - frame.getWidth(), mousePosition.y - frame.getHeight());
         frame.setVisible(true);
     }
-    
+
     public void close() {
     	frame.setVisible(false);
     }

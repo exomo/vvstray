@@ -10,7 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 public class AlertAndTransferDialog extends JDialog {
-	
+
 	public AlertAndTransferDialog(ArrayList<String> alerts, ArrayList<String> transfers) {
 		super();
 		if(alerts.size() > 0 && transfers.size() > 0) {
@@ -20,7 +20,7 @@ public class AlertAndTransferDialog extends JDialog {
 		} else if (transfers.size() > 0) {
 			this.setTitle("Transfer information");
 		}
-		this.setIconImage(new ImageIcon("resources/vvslogo_16x16.png").getImage());
+		this.setIconImage(new ImageIcon(Utils.getResourcePath("vvslogo_16x16.png")).getImage());
 		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		alerts.forEach((alert) -> this.add(new JLabel(alert)));
 		this.add(new JLabel(" "));
