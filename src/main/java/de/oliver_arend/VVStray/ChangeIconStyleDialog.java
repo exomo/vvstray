@@ -27,7 +27,7 @@ public class ChangeIconStyleDialog {
     public ChangeIconStyleDialog() {
     	frame = new JFrame("");
     	frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-    	frame.setIconImage(new ImageIcon(Utils.getResourcePath("vvslogo_16x16.png")).getImage());
+    	frame.setIconImage(Utils.getImageFromResource("vvslogo_16x16.png"));
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     	JPanel panelDescription = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -38,10 +38,10 @@ public class ChangeIconStyleDialog {
         panelDescription.add(new JLabel("Choose your preferred icon style: "));
 
         colorRadio = new JRadioButton("");
-        JLabel colorRadioLabel = new JLabel("Color", new ImageIcon("coloricon.png"), SwingConstants.LEFT);
+        JLabel colorRadioLabel = new JLabel("Color", new ImageIcon(Utils.getImageFromResource("coloricon.png")), SwingConstants.LEFT);
         colorRadioLabel.setHorizontalTextPosition(SwingConstants.LEFT);
         windows10Radio = new JRadioButton("");
-        JLabel windows10RadioLabel = new JLabel("Windows 10", new ImageIcon("windows10icon.png"), SwingConstants.LEFT);
+        JLabel windows10RadioLabel = new JLabel("Windows 10", new ImageIcon(Utils.getImageFromResource("windows10icon.png")), SwingConstants.LEFT);
         windows10RadioLabel.setHorizontalTextPosition(SwingConstants.LEFT);
 
         iconStyleRadio = new ButtonGroup();

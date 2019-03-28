@@ -1,5 +1,7 @@
 package de.oliver_arend.VVStray;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
@@ -8,6 +10,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.stream.Collectors;
+import javax.imageio.ImageIO;
+import java.awt.Image;
 
 public class Utils {
 
@@ -28,19 +33,24 @@ public class Utils {
         return true;
     }
 
-    public static String getResourcePath(String resource)
+    public static String getTextFromResource(String resource, Charset encoding)
+    {
+        ClassLoader classLoader = Utils.class.getClassLoader();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(classLoader.getResourceAsStream(resource), encoding));
+        String text = reader.lines().collect(Collectors.joining(System.lineSeparator()));
+        return text;
+    }
+
+    public static Image getImageFromResource(String resource)
     {
         try {
             ClassLoader classLoader = Utils.class.getClassLoader();
-            URI uri = classLoader.getResource("").toURI();
-            String mainPath = Paths.get(uri).toString();
-            Path path = Paths.get(mainPath, resource);
-            System.out.println(path.toString());
-            return path.toString();
+            Image image = ImageIO.read(classLoader.getResource(resource));
+            return image;
         }
-        catch(java.net.URISyntaxException e) {
+        catch(IOException e) {
             System.out.println(e.toString());
-            return "";
+            return null;
         }
     }
 

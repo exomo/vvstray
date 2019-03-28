@@ -17,25 +17,21 @@ public class UserSettingsProvider {
 
 	public static UserSettings getUserSettings() {
 		if(settings == null) {
-			try {
-				String settingsString = Utils.readFile(Utils.getResourcePath("settings.json"), StandardCharsets.UTF_8);
-				settings = gson.fromJson(settingsString, UserSettings.class);
-			} catch(IOException e) {
-				System.out.println(e.toString());
-			}
+			String settingsString = Utils.getTextFromResource("settings.json", StandardCharsets.UTF_8);
+			settings = gson.fromJson(settingsString, UserSettings.class);
 		}
 		return settings;
 	}
 
 	public static void setUserSettings(UserSettings u) {
-		settings = u;
-		String settingsString = gson.toJson(u);
-		try {
-			Utils.writeFile(Utils.getResourcePath("settings.json"), settingsString);
-		} catch(IOException e) {
-			System.out.println(e.toString());
-		}
-		propertyChangeSupport.firePropertyChange("settings", null, u);
+		// settings = u;
+		// String settingsString = gson.toJson(u);
+		// try {
+		// 	Utils.writeFile(Utils.getResourcePath("settings.json"), settingsString);
+		// } catch(IOException e) {
+		// 	System.out.println(e.toString());
+		// }
+		// propertyChangeSupport.firePropertyChange("settings", null, u);
 	}
 
     public static void addListener(PropertyChangeListener newListener) {

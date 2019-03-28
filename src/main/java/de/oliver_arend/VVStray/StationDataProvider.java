@@ -19,15 +19,9 @@ public class StationDataProvider {
 	private StationDataProvider() { }
 
 	private static void parseStationJson() {
-		try {
-			String resourcePath = Utils.getResourcePath("vvs_stops.json");
-			System.out.println(resourcePath);
-			String stationJson = Utils.readFile(resourcePath, StandardCharsets.UTF_8);
-			Type stationListType = new TypeToken<ArrayList<Station>>(){}.getType();
-			allStations = gson.fromJson(stationJson, stationListType);
-		} catch(IOException e) {
-			System.out.println(e.toString());
-		}
+		String stationJson = Utils.getTextFromResource("vvs_stops.json", StandardCharsets.UTF_8);
+		Type stationListType = new TypeToken<ArrayList<Station>>(){}.getType();
+		allStations = gson.fromJson(stationJson, stationListType);
 	}
 
 	public static ArrayList<Station> getStationsArrayList() {

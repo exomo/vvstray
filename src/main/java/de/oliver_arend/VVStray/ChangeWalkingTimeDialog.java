@@ -18,7 +18,7 @@ public class ChangeWalkingTimeDialog {
     public ChangeWalkingTimeDialog() {
     	frame = new JFrame("");
     	frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
-    	frame.setIconImage(new ImageIcon(Utils.getResourcePath("vvslogo_16x16.png")).getImage());
+    	frame.setIconImage(Utils.getImageFromResource("vvslogo_16x16.png"));
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
     	JPanel panelDescription = new JPanel(new FlowLayout(FlowLayout.CENTER));
