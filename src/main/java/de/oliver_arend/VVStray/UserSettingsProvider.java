@@ -21,6 +21,7 @@ public class UserSettingsProvider {
 				String settingsString = Utils.readFile("settings.json", StandardCharsets.UTF_8);
 				settings = gson.fromJson(settingsString, UserSettings.class);
 			} catch(IOException e) {
+				System.out.println(e.toString());
 				return getDefaultUserSettings();
 			}
 		}
@@ -29,10 +30,9 @@ public class UserSettingsProvider {
 
 	private static UserSettings getDefaultUserSettings() {
 		System.out.println("Loading default user settings");
-		if(settings == null) {
-			String settingsString = Utils.getTextFromResource("settings.json", StandardCharsets.UTF_8);
-			settings = gson.fromJson(settingsString, UserSettings.class);
-		}
+
+		String settingsString = Utils.getTextFromResource("settings.json", StandardCharsets.UTF_8);
+		settings = gson.fromJson(settingsString, UserSettings.class);
 		return settings;
 	}
 

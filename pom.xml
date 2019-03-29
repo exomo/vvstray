@@ -104,7 +104,8 @@
                 <artifactId>appassembler-maven-plugin</artifactId>
                 <version>1.10</version>
                 <configuration>
-                <showConsoleWindow>false</showConsoleWindow>
+                <showConsoleWindow>true</showConsoleWindow>
+                <copyConfigurationDirectory>true</copyConfigurationDirectory>
                 <programs>
                     <program>
                         <mainClass>de.oliver_arend.VVStray.VVStray</mainClass>
@@ -124,6 +125,12 @@
                 <version>0.8.1</version>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
     <reporting>
         <plugins>
