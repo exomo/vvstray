@@ -9,15 +9,24 @@ A little app that shows the next train/subway/bus going your way in the system t
 Build the project using maven
 
 ### Required software
-- Java JDK
+- Java JDK 8
 - Maven
 - jedit.jar (get from here: http://www.java2s.com/Code/Jar/j/Downloadjeditjar.htm)
 
 ### Install jedit
-mvn install:install-file -Dfile=jedit.jar -DgroupId=org.gjt.sp -DartifactId=jedit -DgeneratePom=true -Dversion=1.0.0 -Dpackaging=jar
+
+    mvn install:install-file -Dfile=jedit.jar -DgroupId=org.gjt.sp -DartifactId=jedit -DgeneratePom=true -Dversion=1.0.0 -Dpackaging=jar
 
 ### Start build
-mvn package -f pom.xml
+
+    mvn compile -f pom.xml
 
 ### Run
-mvn exec:java
+
+    mvn exec:java
+
+### Build distributable app
+
+    mvn package appassembler:assemble
+
+run batch/shell script from target/appassembler/bin

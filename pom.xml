@@ -104,6 +104,7 @@
                 <artifactId>appassembler-maven-plugin</artifactId>
                 <version>1.10</version>
                 <configuration>
+                <showConsoleWindow>false</showConsoleWindow>
                 <programs>
                     <program>
                         <mainClass>de.oliver_arend.VVStray.VVStray</mainClass>

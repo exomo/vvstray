@@ -21,8 +21,8 @@ public class Utils {
             return new String(encoded, encoding);
     }
 
-    public static void writeFile(String path, String body) throws IOException {
-        byte[] encoded = body.getBytes("UTF-8");
+    public static void writeFile(String path, String body, Charset encoding) throws IOException {
+        byte[] encoded = body.getBytes(encoding);
         Files.write(Paths.get(path), encoded);
     }
 
