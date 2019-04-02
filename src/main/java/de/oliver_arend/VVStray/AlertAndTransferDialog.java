@@ -14,7 +14,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
 public class AlertAndTransferDialog extends JDialog {
-	
+
 	public AlertAndTransferDialog(ArrayList<String> alerts, ArrayList<String> transfers) {
 		super();
 		if(alerts.size() > 0 && transfers.size() > 0) {
@@ -24,11 +24,11 @@ public class AlertAndTransferDialog extends JDialog {
 		} else if (transfers.size() > 0) {
 			this.setTitle("Transfer information");
 		}
-		this.setIconImage(new ImageIcon("resources/vvslogo_16x16.png").getImage());
+		this.setIconImage(Utils.getImageFromResource("vvslogo_16x16.png"));
 		this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
 		alerts.forEach((alert) -> {
 			JPanel alertPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			alertPanel.add(new JLabel(alert, new ImageIcon("resources/alert.png"), SwingConstants.LEFT));
+			alertPanel.add(new JLabel(alert, new ImageIcon(Utils.getImageFromResource("alert.png")), SwingConstants.LEFT));
 			this.add(alertPanel);
 		});
 		if(alerts.size() > 0 && transfers.size() > 0) {
@@ -36,7 +36,7 @@ public class AlertAndTransferDialog extends JDialog {
 		}
 		transfers.forEach((transfer) -> {
 			JPanel transferPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-			transferPanel.add(new JLabel(transfer, new ImageIcon("resources/transfer.png"), SwingConstants.LEFT));
+			transferPanel.add(new JLabel(transfer, new ImageIcon(Utils.getImageFromResource("transfer.png")), SwingConstants.LEFT));
 			this.add(transferPanel);
 		});
 		this.pack();

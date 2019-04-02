@@ -9,10 +9,10 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.Gson;
 
 public class ParseStationJson {
-	
+
 	public static void main(String[] args) {
 		try {
-			String stationJson = Utils.readFile("C:\\dev\\eclipse-workspace\\VVStray\\src\\de\\oliver_arend\\VVStray\\vvs_stops.json", StandardCharsets.UTF_8);
+			String stationJson = Utils.readFile("C:\\Users\\kbublitz\\Documents\\Projekte\\vvstray\\src\\main\\resources\\vvs_stops.json", StandardCharsets.UTF_8);
 			Gson g = new Gson();
 			Type stationListType = new TypeToken<ArrayList<Station>>(){}.getType();
 			ArrayList<Station> allStations = g.fromJson(stationJson, stationListType);

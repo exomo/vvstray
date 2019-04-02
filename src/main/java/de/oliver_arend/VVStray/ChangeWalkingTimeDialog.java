@@ -14,17 +14,17 @@ import javax.swing.WindowConstants;
 public class ChangeWalkingTimeDialog {
     private static JFrame frame;
     private JTextField walkingTimeField;
-    
+
     public ChangeWalkingTimeDialog() {
     	frame = new JFrame("");
-    	frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));  
-    	frame.setIconImage(new ImageIcon("resources/vvslogo_16x16.png").getImage());
+    	frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.Y_AXIS));
+    	frame.setIconImage(Utils.getImageFromResource("vvslogo_16x16.png"));
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		    	
+
     	JPanel panelDescription = new JPanel(new FlowLayout(FlowLayout.CENTER));
     	JPanel panelInput = new JPanel(new FlowLayout(FlowLayout.CENTER));
     	JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        
+
         panelDescription.add(new JLabel("Walking time from where you are to your departure stop: "));
 
         walkingTimeField = new JTextField(2);
@@ -34,8 +34,8 @@ public class ChangeWalkingTimeDialog {
         JButton OK = new JButton("OK");
         JButton cancel = new JButton("Cancel");
 
-        OK.addActionListener(new ActionListener() {  
-            public void actionPerformed(ActionEvent e) {  
+        OK.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
             	String walkingTimeString = walkingTimeField.getText();
                 if(Utils.isNumeric(walkingTimeString)) {
                 	UserSettings u = UserSettingsProvider.getUserSettings();
@@ -45,32 +45,32 @@ public class ChangeWalkingTimeDialog {
                 } else {
                 	walkingTimeField.setText("");
                 }
-            }  
-        });  
+            }
+        });
 
-        cancel.addActionListener(new ActionListener() {  
-            public void actionPerformed(ActionEvent e) {  
+        cancel.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 close();
-            }  
-        });  
+            }
+        });
 
-        panelButtons.add(OK);   
+        panelButtons.add(OK);
         panelButtons.add(cancel);
-        
+
         frame.add(panelDescription);
         frame.add(panelInput);
         frame.add(panelButtons);
 
         frame.pack();
     }
-    
+
     public void open() {
     	walkingTimeField.setText(Integer.toString(UserSettingsProvider.getUserSettings().getWalkingTimeToStation()));
         Point mousePosition = MouseInfo.getPointerInfo().getLocation();
         frame.setLocation(mousePosition.x - frame.getWidth(), mousePosition.y - frame.getHeight());
         frame.setVisible(true);
     }
-    
+
     public void close() {
     	frame.setVisible(false);
     }
