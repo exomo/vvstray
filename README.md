@@ -27,6 +27,6 @@ Build the project using maven
 
 ### Build distributable app
 
-    mvn package appassembler:assemble
+    mvn package -f pom.xml
 
 run batch/shell script from target/appassembler/bin
