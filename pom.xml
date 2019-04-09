@@ -84,6 +84,7 @@
                 <configuration>
 					<archive>
 						<manifest>
+                            <addClasspath>true</addClasspath>
 							<mainClass>de.oliver_arend.VVStray.VVStray</mainClass>
 						</manifest>
 					</archive>
