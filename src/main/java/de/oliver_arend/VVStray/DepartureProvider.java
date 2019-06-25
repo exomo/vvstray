@@ -16,6 +16,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.Collectors;
+import java.util.zip.GZIPInputStream;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -48,68 +49,70 @@ public class DepartureProvider {
 		return getNowPlusWalkingTime().format(querystringDate);
 	}
 
-	private void setParamString() throws UnsupportedEncodingException {
-		String origin = UserSettingsProvider.getUserSettings().getOriginStation().getDistrictAndName();
-		String originId = Long.toString(UserSettingsProvider.getUserSettings().getOriginStation().getId());
-		String destination = UserSettingsProvider.getUserSettings().getDestinationStation().getDistrictAndName();
-		String destinationId = Long.toString(UserSettingsProvider.getUserSettings().getDestinationStation().getId());
-		String param = "useRealtime=1";
-		param += "&type_origin=any";
-		param += "&type_destination=any";
-		param += "&selectedTariffzones=53&selectedTariffzones=52&selectedTariffzones=51&selectedTariffzones=50&selectedTariffzones=49&selectedTariffzones=48&selectedTariffzones=47&selectedTariffzones=46&selectedTariffzones=45&selectedTariffzones=44&selectedTariffzones=43&selectedTariffzones=42&selectedTariffzones=41&selectedTariffzones=40&selectedTariffzones=39&selectedTariffzones=38&selectedTariffzones=37&selectedTariffzones=36&selectedTariffzones=35&selectedTariffzones=34&selectedTariffzones=33&selectedTariffzones=32&selectedTariffzones=31&selectedTariffzones=30&selectedTariffzones=29&selectedTariffzones=28&selectedTariffzones=27&selectedTariffzones=26&selectedTariffzones=25&selectedTariffzones=24&selectedTariffzones=23&selectedTariffzones=22&selectedTariffzones=21&selectedTariffzones=20&selectedTariffzones=19&selectedTariffzones=18&selectedTariffzones=17&selectedTariffzones=16&selectedTariffzones=15&selectedTariffzones=14&selectedTariffzones=13&selectedTariffzones=12&selectedTariffzones=11&selectedTariffzones=10&selectedTariffzones=9&selectedTariffzones=8&selectedTariffzones=7&selectedTariffzones=6&selectedTariffzones=5&selectedTariffzones=4&selectedTariffzones=3&selectedTariffzones=2&selectedTariffzones=1&selectedTariffzones=0";
-		param += "&calcOneDirection=1";
-		param += "&changeSpeed=normal";
-		param += "&dwellTimeMinutes=0";
-		param += "&efaResult=submit";
-		param += "&itOptionsActive=1";
-		param += "&routeType=LEASTTIME";
-		param += "&trlTArrMOTvalue100=15";
-		param += "&trlTDepMOTvalue100=15";
-		param += "&useSuburb=1";
-		param += "&itdTripDateTimeDepArr=dep";
-		param += "&itdDateDayMonthYear=" + getDateAsQuerystring();
-		param += "&itdTime=" + getTimeAsQuerystring();
-		param += "&nameInfo_destination=" + destinationId; // z. B. 5000175 für Leinfelden
-		param += "&name_destination=" + URLEncoder.encode(destination, "UTF-8"); // z. B. Leinfelden+%2F+Leinfelden
-		param += "&nameInfo_origin=" + originId; // z.B. 5006002 für Stuttgart-Vaihingen
-		param += "&name_origin=" + URLEncoder.encode(origin, "UTF-8"); // z. B. Stuttgart+%2F+Vaihingen
-		param += "&includedMeans=checkbox";
-		param += "&inclMOT_11=on"; // pedestrians
-		if(UserSettingsProvider.getUserSettings().isUseSBahn()) { param += "&inclMOT_1=on"; }
-		if(UserSettingsProvider.getUserSettings().isUseUBahn()) { param += "&inclMOT_3=on"; }
-		if(UserSettingsProvider.getUserSettings().isUseBus()) {
-			param += "&inclMOT_5=on"; // bus
-			param += "&inclMOT_7=on"; // night bus
-		}
-		this.params = param;
-	}
+    private void setParamString() throws UnsupportedEncodingException {
+    	String origin = UserSettingsProvider.getUserSettings().getOriginStation().getDistrictAndName();
+    	String originId = Long.toString(UserSettingsProvider.getUserSettings().getOriginStation().getId());
+    	String destination = UserSettingsProvider.getUserSettings().getDestinationStation().getDistrictAndName();
+    	String destinationId = Long.toString(UserSettingsProvider.getUserSettings().getDestinationStation().getId());
+    	String param = "useRealtime=1";
+    	param += "&type_origin=any";
+    	param += "&type_destination=any";
+    	param += "&selectedTariffzones=59&selectedTariffzones=58&selectedTariffzones=57&selectedTariffzones=56&selectedTariffzones=55&selectedTariffzones=54&selectedTariffzones=53&selectedTariffzones=52&selectedTariffzones=51&selectedTariffzones=50&selectedTariffzones=49&selectedTariffzones=48&selectedTariffzones=47&selectedTariffzones=46&selectedTariffzones=45&selectedTariffzones=44&selectedTariffzones=43&selectedTariffzones=42&selectedTariffzones=41&selectedTariffzones=40&selectedTariffzones=39&selectedTariffzones=38&selectedTariffzones=37&selectedTariffzones=36&selectedTariffzones=35&selectedTariffzones=34&selectedTariffzones=33&selectedTariffzones=32&selectedTariffzones=31&selectedTariffzones=30&selectedTariffzones=29&selectedTariffzones=28&selectedTariffzones=27&selectedTariffzones=26&selectedTariffzones=25&selectedTariffzones=24&selectedTariffzones=23&selectedTariffzones=22&selectedTariffzones=21&selectedTariffzones=20&selectedTariffzones=19&selectedTariffzones=18&selectedTariffzones=17&selectedTariffzones=16&selectedTariffzones=15&selectedTariffzones=14&selectedTariffzones=13&selectedTariffzones=12&selectedTariffzones=11&selectedTariffzones=10&selectedTariffzones=9&selectedTariffzones=8&selectedTariffzones=7&selectedTariffzones=6&selectedTariffzones=5&selectedTariffzones=4&selectedTariffzones=3&selectedTariffzones=2&selectedTariffzones=1&selectedTariffzones=0";
+    	param += "&calcOneDirection=1";
+    	param += "&changeSpeed=normal";
+    	param += "&dwellTimeMinutes=0";
+    	param += "&efaResult=submit";
+    	param += "&itOptionsActive=1";
+    	param += "&routeType=LEASTTIME";
+    	param += "&trlTArrMOTvalue100=15";
+    	param += "&trlTDepMOTvalue100=15";
+    	param += "&useSuburb=1";
+    	param += "&itdTripDateTimeDepArr=dep";
+    	param += "&itdDateDayMonthYear=" + getDateAsQuerystring();
+    	param += "&itdTime=" + getTimeAsQuerystring();
+    	param += "&nameInfo_destination=" + destinationId; // z. B. 5000175 für Leinfelden
+    	param += "&name_destination=" + URLEncoder.encode(destination, "UTF-8"); // z. B. Leinfelden+%2F+Leinfelden
+    	param += "&nameInfo_origin=" + originId; // z.B. 5006002 für Stuttgart-Vaihingen
+    	param += "&name_origin=" + URLEncoder.encode(origin, "UTF-8"); // z. B. Stuttgart+%2F+Vaihingen
+    	param += "&includedMeans=checkbox";
+    	param += "&inclMOT_11=on"; // pedestrians
+    	if(UserSettingsProvider.getUserSettings().isUseSBahn()) { param += "&inclMOT_1=on"; }
+    	if(UserSettingsProvider.getUserSettings().isUseUBahn()) { param += "&inclMOT_3=on"; }
+    	if(UserSettingsProvider.getUserSettings().isUseBus()) {
+    		param += "&inclMOT_5=on"; // bus
+        	param += "&inclMOT_7=on"; // night bus
+    	}
+    	this.params = param;
+    	System.out.println(param);
+    }
 
 	private void postRequest() throws MalformedURLException, IOException {
-		byte[] requestBody = this.params.getBytes(StandardCharsets.UTF_8);
-		int contentLength = requestBody.length;
+    	byte[] requestBody = this.params.getBytes(StandardCharsets.UTF_8);
+    	int contentLength = requestBody.length;
 
-		URL url = new URL("http://efastatic.vvs.de/vvs/XSLT_TRIP_REQUEST2");
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    	URL url = new URL("http://efastatic.vvs.de/vvs/XSLT_TRIP_REQUEST2");
+    	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-		conn.setRequestMethod("POST");
-		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-		conn.setRequestProperty("Content-Length", Integer.toString(contentLength));
-		conn.setRequestProperty("charset", "utf-8");
-		conn.setDoOutput(true);
-		conn.getOutputStream().write(requestBody);
+    	conn.setRequestMethod("POST");
+    	conn.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
+    	conn.setRequestProperty("Accept-Language", "de,en-US;q=0.7,en;q=0.3");
+    	conn.setRequestProperty("Accept-Encoding", "gzip, deflate");
+    	conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+    	conn.setRequestProperty("charset", "utf-8");
+    	conn.setDoOutput(true);
+        conn.getOutputStream().write(requestBody);
 
-		StringBuilder result = new StringBuilder();
-		BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
-		String line;
-		while ((line = rd.readLine()) != null) {
-			result.append(line);
-		}
-		rd.close();
+    	StringBuilder result = new StringBuilder();
+    	BufferedReader rd = new BufferedReader(new InputStreamReader(new GZIPInputStream(conn.getInputStream()), "UTF-8"));
+    	String line;
+    	while ((line = rd.readLine()) != null) {
+    		result.append(line);
+    	}
+    	rd.close();
 
-		this.resultBody = result.toString();
-//    	this.resultBody = new String(result.toString().getBytes("UTF-8"));
-
-	}
+    	this.resultBody = result.toString();
+    	System.out.println(this.resultBody);
+    }
 
 	private void parseFirstDepartureFromResultBody() throws NullPointerException {
 		Document doc = Jsoup.parse(this.resultBody);
@@ -141,12 +144,12 @@ public class DepartureProvider {
 		Elements alertCells = doc.select("div#detailTrip1 td:has(a.stoerung-dialog-opener) + td");
 		if(alertCells.size() > 0) {
 			alerts = alertCells
-				.stream()
-				.map(Element::text)
-				.map(text -> text.split("<br>"))
-				.flatMap(Arrays::stream)
-				.distinct()
-				.collect(Collectors.toCollection(ArrayList::new));
+						.stream()
+						.map(Element::html)
+						.map(text -> text.split("<br>"))
+						.flatMap(Arrays::stream)
+						.distinct()
+						.collect(Collectors.toCollection(ArrayList::new));
 		}
 
 		currentDeparture = new Departure(departureTime, arrivalTime, lineNumber, delayed, transferNumber, transfers, alerts);
@@ -173,7 +176,7 @@ public class DepartureProvider {
 	}
 
 	public void update() throws UnsupportedEncodingException, MalformedURLException, IOException, NullPointerException {
-		setParamString();
+    	setParamString();
 		postRequest();
 		parseFirstDepartureFromResultBody();
 	}
@@ -187,7 +190,7 @@ public class DepartureProvider {
 				this.currentDeparture.getTransfers(),
 				this.currentDeparture.getAlerts(),
 				(delta > 99 ? 99 : delta)+"",
-				this.currentDeparture.getModeOfTransport(),
+        		this.currentDeparture.getModeOfTransport(),
 				this.currentDeparture.isDelayed(),
 				this.currentDeparture.getTransferNumber(),
 				this.currentDeparture.hasAlerts()
