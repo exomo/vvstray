@@ -15,10 +15,10 @@ public class VVStray implements PropertyChangeListener {
 
 	private SystemTrayIcon trayIcon;
 	private DepartureProvider departureProvider;
-	
+
 	public VVStray() {
 		UserSettingsProvider.addListener(this);
-		
+
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch(Exception e) {}
@@ -34,12 +34,12 @@ public class VVStray implements PropertyChangeListener {
 		ScheduledExecutorService exec = Executors.newScheduledThreadPool(1);
 		exec.scheduleAtFixedRate(updateRunnable, 0, 1, TimeUnit.MINUTES);
     }
-	
+
 	@Override
 	public void propertyChange(PropertyChangeEvent newSettings) {
 		update();
 	}
-	
+
 	public void update() {
     	try {
             trayIcon.update(departureProvider.getTrayIconDescriptor());
@@ -51,19 +51,19 @@ public class VVStray implements PropertyChangeListener {
     		trayIcon.update(new TrayIconDescriptor("NullPointerException when trying to parse response body to departure", new ArrayList<String>(), new ArrayList<String>(), "!", ModesOfTransport.WARNING, false, 0, false));
     	}
 	}
-	
+
 	public void waitOneMinute() {
-        try { Thread.sleep(60 * 1000); } 
+        try { Thread.sleep(60 * 1000); }
         catch(InterruptedException e) { e.printStackTrace(); }
 	}
-	
+
     public void run() {
         while(true) {
         	update();
         	waitOneMinute();
         }
     }
-	
+
 	public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             @Override
